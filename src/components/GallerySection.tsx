@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, MapPin, Heart, X, ZoomIn, ArrowRight } from 'lucide-react';
 import { GALLERY_DATA } from '../data/galleryData';
+import { ADMIN_WA_NUMBER } from '../data/packagesData';
 import { GalleryItem } from '../types';
 
 interface GallerySectionProps {
@@ -186,7 +187,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({ onExplorePackage
                   Pilih Paket Wedding Ini
                 </button>
                 <a
-                  href={`https://wa.me/6282122030072?text=Halo%20Admin,%20saya%20tertarik%20dengan%20portofolio%20${encodeURIComponent(selectedPhoto.title)}`}
+                  href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Senna%20MUA%20%26%20Sekka%20Design,%20saya%20tertarik%20dengan%20portofolio%20${encodeURIComponent(selectedPhoto.title)}%20(${encodeURIComponent(selectedPhoto.categoryLabel)}).%20Mohon%20info%20paket%20dan%20ketersediaan%20jadwal.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full bg-white/10 hover:bg-white/20 text-white text-xs uppercase tracking-[0.18em] font-semibold py-3 rounded-xl transition text-center block"

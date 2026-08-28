@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sparkles, Palette, Crown, Check, ArrowRight } from 'lucide-react';
-import { SERVICES_DATA } from '../data/packagesData';
+import { SERVICES_DATA, ADMIN_WA_NUMBER } from '../data/packagesData';
 
 interface ServicesSectionProps {
   onSelectCategory: (category: string) => void;
@@ -117,7 +117,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectCatego
           </div>
 
           <a
-            href="https://wa.me/6282122030072?text=Halo%20Admin,%20saya%20ingin%20konsultasi%20custom%20paket%20wedding%20sesuai%20budget%20kami"
+            href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Senna%20MUA%20%26%20Sekka%20Design,%20saya%20ingin%20konsultasi%20custom%20paket%20wedding%20sesuai%20budget%20kami`}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#F5F2ED] text-[#1A1A1A] hover:bg-white text-xs uppercase tracking-[0.2em] font-semibold px-7 py-3.5 rounded-full shadow hover:scale-105 transition shrink-0 flex items-center gap-2 cursor-pointer"

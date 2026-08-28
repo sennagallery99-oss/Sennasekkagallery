@@ -4,29 +4,24 @@ import {
   Sparkles, 
   Gift, 
   Phone, 
-  Lock, 
   Info, 
   ArrowRight, 
   X,
   MessageCircle,
-  Clock,
   ShieldCheck,
-  Star
+  Star,
+  CalendarCheck
 } from 'lucide-react';
 import { PACKAGES_DATA, ADMIN_WA_NUMBER } from '../data/packagesData';
-import { PackageItem, UserSession } from '../types';
+import { PackageItem } from '../types';
 
 interface PackagesSectionProps {
-  user: UserSession | null;
-  onOpenAuth: (redirectPackageId?: string) => void;
-  onTriggerBookingSuccess: (pkg: PackageItem) => void;
+  onTriggerBooking?: (pkg: PackageItem) => void;
   selectedCategoryFilter?: string;
 }
 
 export const PackagesSection: React.FC<PackagesSectionProps> = ({
-  user,
-  onOpenAuth,
-  onTriggerBookingSuccess,
+  onTriggerBooking,
   selectedCategoryFilter = 'all'
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>(selectedCategoryFilter || 'all');
@@ -44,16 +39,17 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
     : PACKAGES_DATA.filter((pkg) => pkg.category === activeCategory);
 
   const handleBookingClick = (pkg: PackageItem) => {
-    if (!user) {
-      // User is not logged in: Redirect to login modal with package memory!
-      onOpenAuth(pkg.id);
+    if (onTriggerBooking) {
+      onTriggerBooking(pkg);
     } else {
-      // User is logged in: Trigger WhatsApp URL and celebratory feedback
-      const clientName = user.nama_lengkap || 'Calon Pengantin';
-      const textMessage = `Halo Admin Senna MUA Gallery & Sekka Design, saya ${clientName} ingin booking ${pkg.name} (${pkg.priceFormatted}). Mohon informasi jadwal ketersediaan tanggal dan jadwal konsultasi. Terima kasih!`;
-      const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${encodeURIComponent(textMessage)}`;
+      const textMessage = `Halo Admin Senna MUA Gallery & Sekka Design, saya ingin booking / konsultasi:\n\n` +
+        `• *Paket*: ${pkg.name}\n` +
+        `• *Kategori*: ${pkg.categoryLabel}\n` +
+        `• *Investasi*: ${pkg.priceFormatted}\n` +
+        `• *Tagline*: ${pkg.tagline}\n\n` +
+        `Mohon informasi ketersediaan tanggal dan jadwal konsultasi/fitting busana pengantin. Terima kasih!`;
       
-      onTriggerBookingSuccess(pkg);
+      const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${encodeURIComponent(textMessage)}`;
       window.open(waUrl, '_blank', 'noopener,noreferrer');
     }
   };
@@ -74,22 +70,13 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
           </h1>
 
           <p className="text-stone-600 text-xs sm:text-sm mt-4 leading-relaxed font-light max-w-2xl mx-auto">
-            Transparan, tanpa biaya tersembunyi. Lengkap dengan makeup artist profesional, dekorasi pelaminan modern, serta busana pengantin berkelas.
+            Transparan, tanpa biaya tersembunyi. Setiap paket langsung terhubung ke WhatsApp Admin resmi untuk pengecekan jadwal tanggal sakral Anda.
           </p>
 
-          {/* User Auth Status Bar in Packages View */}
-          <div className="mt-8 inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white border border-black/10 shadow-xs text-xs font-light">
-            {user ? (
-              <span className="text-emerald-800 font-normal flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                Login sebagai: <strong>{user.nama_lengkap || user.email_hp}</strong> (Klik booking langsung terhubung ke WhatsApp Admin)
-              </span>
-            ) : (
-              <span className="text-stone-700 flex items-center gap-2">
-                <Lock className="w-3.5 h-3.5 text-[#8E8271]" />
-                <span>Belum masuk akun? Klik 'Booking Sekarang' untuk login &amp; melanjutkan otomatis.</span>
-              </span>
-            )}
+          {/* Quick Notice Bar */}
+          <div className="mt-8 inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white border border-black/10 shadow-xs text-xs font-light text-stone-700">
+            <CalendarCheck className="w-4 h-4 text-[#8E8271]" />
+            <span>Pilih paket favorit Anda di bawah &mdash; Klik langsung terhubung ke <strong>WhatsApp Admin</strong></span>
           </div>
         </div>
 
@@ -211,24 +198,15 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
                   )}
                 </div>
 
-                {/* Actions: Booking Sekarang vs Lihat Detail */}
+                {/* Actions: Booking via WhatsApp vs Lihat Detail */}
                 <div className="space-y-2.5 pt-4 border-t border-black/10">
                   <button
                     id={`booking-btn-${pkg.id}`}
                     onClick={() => handleBookingClick(pkg)}
-                    className="w-full text-center font-semibold text-xs uppercase tracking-[0.18em] py-3.5 px-4 rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer bg-[#1A1A1A] text-white hover:bg-black"
+                    className="w-full text-center font-semibold text-xs uppercase tracking-[0.18em] py-3.5 px-4 rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer bg-[#1A1A1A] text-white hover:bg-black hover:shadow-md"
                   >
-                    {user ? (
-                      <>
-                        <MessageCircle className="w-4 h-4 text-[#8E8271]" />
-                        <span>Booking via WhatsApp</span>
-                      </>
-                    ) : (
-                      <>
-                        <Lock className="w-4 h-4 text-[#8E8271]" />
-                        <span>Booking Sekarang</span>
-                      </>
-                    )}
+                    <MessageCircle className="w-4 h-4 text-[#8E8271]" />
+                    <span>Pilih Paket via WhatsApp</span>
                   </button>
 
                   <button
@@ -262,7 +240,7 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
           </div>
 
           <a
-            href="https://wa.me/6282122030072?text=Halo%20Admin,%20saya%20ingin%20tanya%20prosedur%20booking%20dan%20pembayaran%20DP"
+            href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Senna%20MUA%20%26%20Sekka%20Design,%20saya%20ingin%20tanya%20prosedur%20booking%20dan%20pembayaran%20DP`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs uppercase tracking-[0.18em] font-semibold text-stone-800 hover:text-black px-6 py-3.5 rounded-full border border-black/20 hover:border-black transition shrink-0 flex items-center gap-2 cursor-pointer bg-[#F5F2ED]"
@@ -376,17 +354,8 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
                 }}
                 className="w-full sm:w-auto bg-[#1A1A1A] text-white hover:bg-black font-semibold text-xs uppercase tracking-[0.18em] px-6 py-3.5 rounded-xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
               >
-                {user ? (
-                  <>
-                    <MessageCircle className="w-4 h-4 text-[#8E8271]" />
-                    <span>Booking Paket Ini (via WhatsApp)</span>
-                  </>
-                ) : (
-                  <>
-                    <Lock className="w-4 h-4 text-[#8E8271]" />
-                    <span>Login &amp; Booking Paket Ini</span>
-                  </>
-                )}
+                <MessageCircle className="w-4 h-4 text-[#8E8271]" />
+                <span>Pesan Paket Ini via WhatsApp</span>
               </button>
             </div>
           </div>

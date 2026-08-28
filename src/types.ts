@@ -38,23 +38,6 @@ export interface GalleryItem {
   description?: string;
 }
 
-export interface UserSession {
-  id: number;
-  email_hp: string;
-  nama_lengkap: string;
-  logged_at: string;
-}
-
-export interface BookingLog {
-  id: string;
-  packageId: string;
-  packageName: string;
-  price: string;
-  eventDate?: string;
-  createdAt: string;
-  status: 'Pending WA' | 'Terkonfirmasi';
-}
-
 export interface Testimonial {
   id: string;
   clientName: string;
@@ -64,12 +47,4 @@ export interface Testimonial {
   comment: string;
   image: string;
   date: string;
-}
-
-export interface PhpFileItem {
-  filename: string;
-  path: string;
-  language: string;
-  description: string;
-  content: string;
 }

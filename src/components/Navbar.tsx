@@ -5,31 +5,19 @@ import {
   Instagram, 
   Menu, 
   X, 
-  UserCheck, 
-  LogOut, 
-  Lock, 
   Calendar,
-  Layers
+  MessageCircle
 } from 'lucide-react';
-import { UserSession } from '../types';
 import { ADMIN_WA_NUMBER, STUDIO_INFO } from '../data/packagesData';
 
 interface NavbarProps {
   currentView: string;
   setCurrentView: (view: string) => void;
-  user: UserSession | null;
-  onOpenAuth: (redirectTarget?: string) => void;
-  onLogout: () => void;
-  onOpenCodeViewer?: () => void;
-  onSelectPackageFilter?: (category: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   setCurrentView,
-  user,
-  onOpenAuth,
-  onLogout,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -165,41 +153,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Right Action Buttons */}
             <div className="hidden md:flex items-center space-x-3 shrink-0">
-              {/* User Session Status */}
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <button
-                    id="user-dashboard-nav-btn"
-                    onClick={() => handleNavClick('dashboard')}
-                    className={`flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-semibold px-3.5 py-2 rounded-full border transition cursor-pointer ${
-                      currentView === 'dashboard'
-                        ? 'border-[#1A1A1A] bg-[#1A1A1A] text-white'
-                        : 'border-black/15 bg-white text-stone-800 hover:bg-stone-50'
-                    }`}
-                  >
-                    <UserCheck className="w-3.5 h-3.5 text-[#8E8271]" />
-                    <span className="max-w-[110px] truncate">{user.nama_lengkap || user.email_hp}</span>
-                  </button>
-
-                  <button
-                    id="logout-nav-btn"
-                    onClick={onLogout}
-                    title="Keluar Sesi"
-                    className="p-2 text-stone-400 hover:text-red-600 hover:bg-red-50 rounded-full transition cursor-pointer"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </button>
-                </div>
-              ) : (
-                <button
-                  id="login-register-nav-btn"
-                  onClick={() => onOpenAuth('packages')}
-                  className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-semibold px-4 py-2 rounded-full border border-black/20 text-stone-800 bg-white hover:border-black transition cursor-pointer shadow-xs whitespace-nowrap"
-                >
-                  <Lock className="w-3.5 h-3.5 text-[#8E8271]" />
-                  <span>Masuk / Daftar</span>
-                </button>
-              )}
+              {/* Direct WhatsApp Consultation */}
+              <a
+                id="nav-wa-direct-btn"
+                href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Senna%20MUA%20%26%20Sekka%20Design,%20saya%20ingin%20konsultasi%20dan%20tanya%20paket%20wedding.`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-semibold px-4 py-2 rounded-full border border-black/20 text-stone-800 bg-white hover:border-black transition cursor-pointer shadow-xs whitespace-nowrap"
+              >
+                <MessageCircle className="w-3.5 h-3.5 text-[#8E8271]" />
+                <span>Chat Admin WA</span>
+              </a>
 
               {/* Booking CTA Button */}
               <button
@@ -266,37 +230,23 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <div className="pt-3 border-t border-black/10 space-y-2">
-              {user ? (
-                <>
-                  <button
-                    onClick={() => handleNavClick('dashboard')}
-                    className="w-full text-left py-2 px-3 rounded-lg text-xs uppercase tracking-wider font-semibold text-stone-800 bg-white border border-black/10 flex items-center gap-2"
-                  >
-                    <UserCheck className="w-4 h-4 text-[#8E8271]" />
-                    <span>Dashboard ({user.nama_lengkap || user.email_hp})</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      onLogout();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full text-left py-2 px-3 rounded-lg text-xs uppercase tracking-wider text-red-600 font-medium flex items-center gap-2"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span>Keluar Sesi</span>
-                  </button>
-                </>
-              ) : (
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    onOpenAuth('packages');
-                  }}
-                  className="w-full text-center py-2.5 px-3 rounded-xl text-xs uppercase tracking-wider font-semibold bg-[#1A1A1A] text-white"
-                >
-                  Masuk / Daftar Akun
-                </button>
-              )}
+              <a
+                href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Senna%20MUA%20%26%20Sekka%20Design,%20saya%20ingin%20konsultasi%20paket%20wedding`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-2.5 px-3 rounded-xl text-xs uppercase tracking-wider font-semibold bg-white border border-black/15 text-stone-800 flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4 text-[#8E8271]" />
+                <span>Konsultasi WhatsApp Admin</span>
+              </a>
+
+              <button
+                onClick={() => handleNavClick('packages')}
+                className="w-full text-center py-2.5 px-3 rounded-xl text-xs uppercase tracking-wider font-semibold bg-[#1A1A1A] text-white"
+              >
+                Lihat Semua Paket Promo
+              </button>
             </div>
           </div>
         )}

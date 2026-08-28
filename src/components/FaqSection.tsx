@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, Phone } from 'lucide-react';
+import { ADMIN_WA_NUMBER } from '../data/packagesData';
 
 export const FaqSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -7,7 +8,7 @@ export const FaqSection: React.FC = () => {
   const faqs = [
     {
       q: 'Bagaimana alur pemesanan (booking) paket di Senna MUA & Sekka Design?',
-      a: 'Sangat mudah! Pilih paket yang Anda minati di halaman Daftar Paket, lalu klik "Booking Sekarang". Jika belum memiliki akun, Anda cukup mendaftar/login secara cepat (nama, email/no HP, dan password). Sistem akan langsung mengarahkan Anda ke WhatsApp Admin dengan format teks detail paket yang dipilih untuk pengecekan ketersediaan tanggal dan jadwal fitting.'
+      a: 'Sangat mudah & praktis! Pilih paket yang Anda minati di katalog Paket, lalu klik tombol "Pilih Paket via WhatsApp". Anda akan langsung diarahkan ke WhatsApp resmi Admin Senna & Sekka (0822-7967-2876) dengan format pesan otomatis lengkap (nama paket, kategori, & harga) untuk langsung mengecek ketersediaan tanggal acara Anda.'
     },
     {
       q: 'Apakah bisa melakukan custom konsep dekorasi pelaminan atau penyesuaian baju adat?',
@@ -82,7 +83,7 @@ export const FaqSection: React.FC = () => {
             <p className="text-xs text-stone-600 font-light mt-0.5">Tim representatif kami siap merespons via WhatsApp dalam hitungan menit.</p>
           </div>
           <a
-            href="https://wa.me/6282122030072?text=Halo%20Admin,%20saya%20ada%20pertanyaan%20seputar%20paket%20wedding"
+            href={`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo%20Admin%20Senna%20MUA%20%26%20Sekka%20Design,%20saya%20ada%20pertanyaan%20seputar%20paket%20wedding`}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#1A1A1A] hover:bg-black text-white text-xs uppercase tracking-[0.18em] font-semibold px-6 py-3 rounded-full shadow-xs transition shrink-0 flex items-center gap-2 cursor-pointer"
