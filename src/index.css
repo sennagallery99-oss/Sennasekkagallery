@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans: 'Montserrat', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-script: 'Great Vibes', cursive;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #1A1A1A;
+    background-color: #F5F2ED;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, .font-serif-luxury {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
+  }
+
+  .font-script {
+    font-family: var(--font-script);
+  }
+}
+
+/* Editorial aesthetic utilities */
+.editorial-gold {
+  color: #8E8271;
+}
+
+.editorial-gold-bg {
+  background-color: #8E8271;
+}
+
+.editorial-gold-border {
+  border-color: #8E8271;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #1A1A1A 0%, #8E8271 60%, #B59A57 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-gradient-bg {
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2624 50%, #1A1A1A 100%);
+}
+
+.gold-border-glow {
+  box-shadow: 0 4px 20px rgba(142, 130, 113, 0.15);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F2ED;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8E8271;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1A1A1A;
+}
+
