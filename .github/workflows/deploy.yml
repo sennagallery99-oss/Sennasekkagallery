@@ -45,6 +45,6 @@ jobs:
           protocol: ftp
           port: 21
           local-dir: ./dist/
-          server-dir: ./
+          server-dir: public_html/
           dangerous-clean-slate: false
           log-level: verbose
