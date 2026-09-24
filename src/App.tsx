@@ -1,20 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
 import { ServicesSection } from './components/ServicesSection';
+import { SewaFeatureBanner } from './components/SewaFeatureBanner';
 import { GallerySection } from './components/GallerySection';
+import { PortfolioShowcase } from './components/PortfolioShowcase';
 import { PackagesSection } from './components/PackagesSection';
 import { TestimonialsSection } from './components/TestimonialsSection';
 import { FaqSection } from './components/FaqSection';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
 import { Footer } from './components/Footer';
+import { ScrollToTop } from './components/ScrollToTop';
+import { SennaAIChatFloating } from './components/SennaAIChatFloating';
 import { PackageItem } from './types';
-import { Sparkles, X } from 'lucide-react';
+import { Sparkles, X, Loader2 } from 'lucide-react';
 import { ADMIN_WA_NUMBER } from './data/packagesData';
+import { initAutoCacheUpdater } from './services/cacheManager';
+import { forceRefreshAllLiveStores } from './store/sewaStore';
 
-export default function App() {
+// Sewa Rental Platform Pages - Core layout & Home
+import { SewaLayout } from './pages/sewa/SewaLayout';
+import { SewaHomePage } from './pages/sewa/SewaHomePage';
+
+// Lazy-loaded pages for high-speed initial bundle loading
+const SewaCatalogPage = lazy(() => import('./pages/sewa/SewaCatalogPage').then(m => ({ default: m.SewaCatalogPage })));
+const SewaProductDetailPage = lazy(() => import('./pages/sewa/SewaProductDetailPage').then(m => ({ default: m.SewaProductDetailPage })));
+const SewaRentalFlowPage = lazy(() => import('./pages/sewa/SewaRentalFlowPage').then(m => ({ default: m.SewaRentalFlowPage })));
+const SewaCartPage = lazy(() => import('./pages/sewa/SewaCartPage').then(m => ({ default: m.SewaCartPage })));
+const SewaPaymentPage = lazy(() => import('./pages/sewa/SewaPaymentPage').then(m => ({ default: m.SewaPaymentPage })));
+const SewaAdminPage = lazy(() => import('./pages/sewa/SewaAdminPage').then(m => ({ default: m.SewaAdminPage })));
+const SewaHistoryPage = lazy(() => import('./pages/sewa/SewaHistoryPage').then(m => ({ default: m.SewaHistoryPage })));
+
+// Minimalist fast loading fallback
+const PageLoadingFallback = () => (
+  <div className="min-h-[50vh] flex flex-col items-center justify-center p-8 text-stone-400">
+    <Loader2 className="w-7 h-7 animate-spin text-[#8E8271] mb-2" />
+    <span className="text-xs tracking-wider uppercase font-semibold">Memuat Halaman...</span>
+  </div>
+);
+
+// Main Studio View Wrapper
+function MainStudioApp() {
   const [currentView, setCurrentView] = useState<string>('home');
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('all');
   const [toastMessage, setToastMessage] = useState<{ text: string; type: 'success' | 'info' } | null>(null);
@@ -92,13 +121,35 @@ export default function App() {
       <main className="flex-1">
         {currentView === 'home' && (
           <>
-            <HeroSection onExplorePackages={() => handleExplorePackages('all')} />
+            <HeroSection 
+              onExplorePackages={() => handleExplorePackages('all')}
+              onExplorePortfolio={() => {
+                setCurrentView('portfolio');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
             <AboutSection />
             <ServicesSection onSelectCategory={handleExplorePackages} />
-            <GallerySection onExplorePackages={() => handleExplorePackages('all')} />
+            
+            {/* NEW FEATURE: Fitur Sewa Busana Banner linking to /sewa */}
+            <SewaFeatureBanner />
+
+            <GallerySection 
+              onExplorePackages={() => handleExplorePackages('all')}
+              onExplorePortfolio={() => {
+                setCurrentView('portfolio');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            />
             <TestimonialsSection />
             <FaqSection />
           </>
+        )}
+
+        {currentView === 'portfolio' && (
+          <PortfolioShowcase 
+            onNavigateToPackages={() => handleExplorePackages('all')}
+          />
         )}
 
         {currentView === 'packages' && (
@@ -127,5 +178,46 @@ export default function App() {
       {/* WhatsApp Floating Hotline */}
       <WhatsAppFloatingButton />
     </div>
+  );
+}
+
+export default function App() {
+  // Auto-clear stale browser caches & trigger instant live update when user opens the website
+  useEffect(() => {
+    initAutoCacheUpdater(() => {
+      forceRefreshAllLiveStores();
+    });
+  }, []);
+
+  return (
+    <>
+      <ScrollToTop />
+      <SennaAIChatFloating />
+      <Routes>
+        {/* Senna Gallery Sewa Platform Sub-routes */}
+        <Route path="/sewa" element={<SewaLayout />}>
+          <Route index element={<SewaHomePage />} />
+          <Route path="katalog" element={<Suspense fallback={<PageLoadingFallback />}><SewaCatalogPage /></Suspense>} />
+          <Route path="katalog/:id" element={<Suspense fallback={<PageLoadingFallback />}><SewaProductDetailPage /></Suspense>} />
+          <Route path="cara-sewa" element={<Suspense fallback={<PageLoadingFallback />}><SewaRentalFlowPage /></Suspense>} />
+          <Route path="keranjang" element={<Suspense fallback={<PageLoadingFallback />}><SewaCartPage /></Suspense>} />
+          <Route path="pembayaran" element={<Suspense fallback={<PageLoadingFallback />}><SewaPaymentPage /></Suspense>} />
+          <Route path="pembayaran/:orderId" element={<Suspense fallback={<PageLoadingFallback />}><SewaPaymentPage /></Suspense>} />
+          <Route path="riwayat" element={<Suspense fallback={<PageLoadingFallback />}><SewaHistoryPage /></Suspense>} />
+          <Route path="admin" element={<Suspense fallback={<PageLoadingFallback />}><SewaAdminPage /></Suspense>} />
+        </Route>
+
+        {/* Alias for case-insensitive URL requested by user: sennagallery.com/Sewa */}
+        <Route path="/Sewa" element={<Navigate to="/sewa" replace />} />
+        <Route path="/Sewa/*" element={<Navigate to="/sewa" replace />} />
+
+        {/* Redirect /admin directly to /sewa/admin */}
+        <Route path="/admin" element={<Navigate to="/sewa/admin" replace />} />
+        <Route path="/admin/*" element={<Navigate to="/sewa/admin" replace />} />
+
+        {/* Main Wedding Studio Website */}
+        <Route path="/*" element={<MainStudioApp />} />
+      </Routes>
+    </>
   );
 }

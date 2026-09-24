@@ -1,0 +1,147 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Sewa Product",
+      "description": "Busana catalog item for rental",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "categoryLabel": { "type": "string" },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "discountPercent": { "type": "number" },
+        "priceFormatted": { "type": "string" },
+        "sizes": { "type": "array" },
+        "colors": { "type": "array" },
+        "imageUrl": { "type": "string" },
+        "location": { "type": "string" },
+        "rating": { "type": "number" }
+      },
+      "required": ["name", "category", "price", "imageUrl"]
+    },
+    "Banner": {
+      "title": "Sewa Banner",
+      "description": "Promo or announcement banner on catalog",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["title", "imageUrl"]
+    },
+    "Package": {
+      "title": "Package Item",
+      "description": "Wedding makeup and decor service package",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" }
+      },
+      "required": ["name", "price"]
+    },
+    "GalleryItem": {
+      "title": "Gallery Item",
+      "description": "Portfolio photo or video item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["title", "imageUrl"]
+    },
+    "WebSettings": {
+      "title": "Web Settings",
+      "description": "Global website configuration and contact info",
+      "type": "object",
+      "properties": {
+        "webName": { "type": "string" },
+        "contactWhatsapp": { "type": "string" }
+      }
+    },
+    "Order": {
+      "title": "Rental Order",
+      "description": "Rental booking order placed by client",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderCode": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "status": { "type": "string" }
+      },
+      "required": ["orderCode", "totalAmount", "status"]
+    },
+    "RegisteredUser": {
+      "title": "User Account",
+      "description": "Registered customer profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "phoneNumber": { "type": "string" }
+      },
+      "required": ["fullName", "phoneNumber"]
+    },
+    "Testimonial": {
+      "title": "Client Testimonial",
+      "description": "Client review and testimonial with rating and comments",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "clientName": { "type": "string" },
+        "role": { "type": "string" },
+        "event": { "type": "string" },
+        "category": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "image": { "type": "string" },
+        "date": { "type": "string" },
+        "location": { "type": "string" },
+        "isVerified": { "type": "boolean" },
+        "likesCount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["clientName", "rating", "comment"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Catalog products accessible to clients and managed by admin"
+    },
+    "/banners/{bannerId}": {
+      "schema": "Banner",
+      "description": "Promotional banners"
+    },
+    "/packages/{packageId}": {
+      "schema": "Package",
+      "description": "Service packages"
+    },
+    "/gallery/{galleryId}": {
+      "schema": "GalleryItem",
+      "description": "Gallery items"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Customer reviews and testimonials"
+    },
+    "/settings/{settingId}": {
+      "schema": "WebSettings",
+      "description": "Website CMS settings"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer rental orders"
+    },
+    "/registered_users/{userId}": {
+      "schema": "RegisteredUser",
+      "description": "Registered user accounts"
+    }
+  }
+}

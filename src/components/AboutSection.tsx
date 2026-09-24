@@ -1,8 +1,38 @@
 import React from 'react';
-import { Heart, Sparkles, Award, Palette, CheckCircle2, Shield, MapPin, Clock, Navigation, ExternalLink } from 'lucide-react';
-import { STUDIO_INFO, ADMIN_WA_NUMBER } from '../data/packagesData';
+import { Heart, Sparkles, Award, Palette, CheckCircle2, Shield, MapPin, Clock, Navigation, ExternalLink, Instagram, Tag } from 'lucide-react';
+import { useSewaStore } from '../store/sewaStore';
+import { STUDIO_INFO, ADMIN_WA_NUMBER, INSTAGRAM_ACCOUNTS } from '../data/packagesData';
+import { LazyImage } from './LazyImage';
 
 export const AboutSection: React.FC = () => {
+  const webSettings = useSewaStore((state) => state.webSettings);
+
+  const aboutTitleText = webSettings?.aboutTitle || 'Tiga Lini Layanan Pernikahan Profesional';
+  const aboutSubtitleText = webSettings?.aboutSubtitle || 'Profil Vendor Pernikahan';
+  const aboutDesc1 = webSettings?.aboutDescription1 || 'Menyatukan keahlian riasan makeup pengantin Senna MUA Gallery, dekorasi pelaminan tematik Sekka Design, dan gaun pengantin mewah Senna Wedding Attire.';
+  const image1 = webSettings?.aboutImage1 || 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80';
+
+  // Service 1: MUA
+  const s1Title = webSettings?.service1Title || 'Senna MUA Gallery';
+  const s1Sub = webSettings?.service1Subtitle || 'Bridal Makeup Artist & Hijabdo Specialist';
+  const s1Desc = webSettings?.service1Desc || 'Dikelola dengan standar rias haute couture, Senna MUA mengutamakan teknik complexion yang tipis, glowing, namun tahan hingga lebih dari 16 jam. Menggunakan produk premium (Dior, MAC, Charlotte Tilbury) untuk hasil sempurna di depan kamera.';
+  const s1Insta = webSettings?.service1Instagram || '@senna_mua_gallery';
+  const s1InstaUrl = webSettings?.service1InstagramUrl || 'https://instagram.com/senna_mua_gallery';
+
+  // Service 2: Decor
+  const s2Title = webSettings?.service2Title || 'Sekka Design Decoration';
+  const s2Sub = webSettings?.service2Subtitle || 'Modern Aesthetic Pelaminan & Venue';
+  const s2Desc = webSettings?.service2Desc || 'Sekka Design menciptakan panggung pelaminan tematik mulai dari Classic Romance, Modern Botanical Glasshouse, hingga Megah Adat Kontemporer dengan bunga segar melimpah dan pencahayaan dramatis.';
+  const s2Insta = webSettings?.service2Instagram || '@sekka_designdecoration';
+  const s2InstaUrl = webSettings?.service2InstagramUrl || 'https://instagram.com/sekka_designdecoration';
+
+  // Service 3: Attire
+  const s3Title = webSettings?.service3Title || 'Senna Wedding Attire';
+  const s3Sub = webSettings?.service3Subtitle || 'Koleksi Gaun, Kebaya & Beskap Pengantin';
+  const s3Desc = webSettings?.service3Desc || 'Koleksi busana pengantin eksklusif: Royal Ballgown ekor panjang, Kebaya Brokat Prancis, dan Beskap Adat Beludru Jerman dengan jahitan payet mutiara detail yang siap di-fitting langsung di studio kami.';
+  const s3Insta = webSettings?.service3Instagram || '@senna_weddingattire';
+  const s3InstaUrl = webSettings?.service3InstagramUrl || 'https://instagram.com/senna_weddingattire';
+
   return (
     <section id="about" className="py-28 bg-[#F5F2ED] relative overflow-hidden border-b border-black/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -10,13 +40,13 @@ export const AboutSection: React.FC = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-20">
           <span className="text-[#8E8271] text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.35em] inline-block border-b border-[#8E8271]/40 pb-1">
-            Profil Vendor Pernikahan
+            {aboutSubtitleText}
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#1A1A1A] mt-4 leading-[1.15]">
-            Sentuhan Seni Rias &amp; Dekorasi Bernilai Tinggi
+            {aboutTitleText}
           </h2>
           <p className="text-stone-600 text-xs sm:text-sm mt-5 leading-relaxed font-light max-w-2xl mx-auto">
-            Menyatukan keahlian riasan makeup pengantin berkelas internasional dengan dekorasi pelaminan tematik yang memadukan keindahan flora dan arsitektur modern.
+            {aboutDesc1}
           </p>
         </div>
 
@@ -26,22 +56,25 @@ export const AboutSection: React.FC = () => {
           {/* Left: Imagery Montage */}
           <div className="lg:col-span-5 relative">
             <div className="relative z-10 rounded-2xl overflow-hidden shadow-xl border border-black/10 bg-stone-200">
-              <img
-                src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80"
+              <LazyImage
+                src={image1}
                 alt="Senna MUA dan Sekka Design"
-                className="w-full h-[480px] object-cover hover:scale-105 transition duration-700 filter brightness-[0.97]"
+                imageSize={800}
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                containerClassName="w-full h-[520px]"
+                className="w-full h-full object-cover hover:scale-105 transition duration-700 filter brightness-[0.97]"
               />
             </div>
 
             {/* Overlapping Floating Badge */}
-            <div className="absolute -bottom-6 -right-4 sm:-right-6 z-20 bg-white rounded-2xl p-4 sm:p-5 shadow-xl border border-black/10 max-w-[240px]">
+            <div className="absolute -bottom-6 -right-4 sm:-right-6 z-20 bg-white rounded-2xl p-4 sm:p-5 shadow-xl border border-black/10 max-w-[260px]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#1A1A1A] text-white flex items-center justify-center shrink-0">
                   <Award className="w-5 h-5 text-[#8E8271]" />
                 </div>
                 <div>
-                  <h4 className="font-serif font-bold text-[#1A1A1A] text-sm leading-tight">Certified MUA &amp; Decorator</h4>
-                  <p className="text-[10px] text-stone-500 uppercase tracking-wider mt-0.5">Official Wedding Partner</p>
+                  <h4 className="font-serif font-bold text-[#1A1A1A] text-sm leading-tight">MUA, Decor &amp; Attire</h4>
+                  <p className="text-[10px] text-stone-500 uppercase tracking-wider mt-0.5">3 Akun Instagram Resmi</p>
                 </div>
               </div>
             </div>
@@ -50,38 +83,93 @@ export const AboutSection: React.FC = () => {
             <div className="absolute -top-10 -left-10 w-48 h-48 bg-[#8E8271]/10 rounded-full blur-3xl -z-10"></div>
           </div>
 
-          {/* Right: Detailed Story of Both Brands */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Right: Detailed Story of the 3 Brands */}
+          <div className="lg:col-span-7 space-y-4">
             
-            {/* Senna MUA Block */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-black/10 shadow-xs hover:border-black/30 transition duration-300">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2.5 rounded-xl bg-[#F5F2ED] text-[#1A1A1A] border border-black/5">
-                  <Sparkles className="w-4 h-4 text-[#8E8271]" />
+            {/* 1. Senna MUA Block */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 border border-black/10 shadow-xs hover:border-black/30 transition duration-300">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3.5">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-[#F5F2ED] text-[#1A1A1A] border border-black/5 shrink-0">
+                    <Sparkles className="w-4 h-4 text-[#8E8271]" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-xl font-normal text-[#1A1A1A]">{s1Title}</h3>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#8E8271] font-semibold">{s1Sub}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-serif text-2xl font-normal text-[#1A1A1A]">Senna MUA Gallery</h3>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#8E8271] font-semibold">Bridal Makeup Artist &amp; Beauty Specialist</p>
-                </div>
+
+                <a
+                  href={s1InstaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-full bg-[#1A1A1A] hover:bg-black text-white text-[11px] font-medium flex items-center gap-1.5 transition shrink-0 self-start sm:self-auto"
+                  title="Lihat portofolio rias di Instagram"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-[#E6B8A2]" />
+                  <span>{s1Insta}</span>
+                </a>
               </div>
               <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-light">
-                Dikelola dengan standar rias haute couture, Senna MUA mengutamakan teknik complexion yang tipis, glowing, namun tahan hingga lebih dari 12 jam. Menggunakan produk premium seperti Dior, MAC, Charlotte Tilbury, dan Make Up For Ever untuk memastikan kulit pengantin tetap nyaman dan tampak paripurna di hadapan kamera serta tamu undangan.
+                {s1Desc}
               </p>
             </div>
 
-            {/* Sekka Design Block */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-black/10 shadow-xs hover:border-black/30 transition duration-300">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2.5 rounded-xl bg-[#F5F2ED] text-[#1A1A1A] border border-black/5">
-                  <Palette className="w-4 h-4 text-[#8E8271]" />
+            {/* 2. Sekka Design Block */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 border border-black/10 shadow-xs hover:border-black/30 transition duration-300">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3.5">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-[#F5F2ED] text-[#1A1A1A] border border-black/5 shrink-0">
+                    <Palette className="w-4 h-4 text-[#8E8271]" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-xl font-normal text-[#1A1A1A]">{s2Title}</h3>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#8E8271] font-semibold">{s2Sub}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-serif text-2xl font-normal text-[#1A1A1A]">Sekka Design Decoration</h3>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-[#8E8271] font-semibold">Modern Aesthetic Wedding Decoration &amp; Concept</p>
-                </div>
+
+                <a
+                  href={s2InstaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-full bg-[#1A1A1A] hover:bg-black text-white text-[11px] font-medium flex items-center gap-1.5 transition shrink-0 self-start sm:self-auto"
+                  title="Lihat portofolio dekorasi di Instagram"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-[#E6B8A2]" />
+                  <span>{s2Insta}</span>
+                </a>
               </div>
               <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-light">
-                Sekka Design menciptakan panggung pelaminan tematik yang personal. Mulai dari konsep Classic Romance, Modern Botanical Glasshouse, hingga Megah Adat Kontemporer. Setiap detail ditata secara teliti dengan komposisi bunga segar, penataan lampu ambience dramatis, dan photo booth interaktif.
+                {s2Desc}
+              </p>
+            </div>
+
+            {/* 3. Senna Wedding Attire Block */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 border border-black/10 shadow-xs hover:border-black/30 transition duration-300">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3.5">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-[#F5F2ED] text-[#1A1A1A] border border-black/5 shrink-0">
+                    <Tag className="w-4 h-4 text-[#8E8271]" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-xl font-normal text-[#1A1A1A]">{s3Title}</h3>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-[#8E8271] font-semibold">{s3Sub}</p>
+                  </div>
+                </div>
+
+                <a
+                  href={s3InstaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-full bg-[#1A1A1A] hover:bg-black text-white text-[11px] font-medium flex items-center gap-1.5 transition shrink-0 self-start sm:self-auto"
+                  title="Lihat koleksi gaun & busana di Instagram"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-[#E6B8A2]" />
+                  <span>{s3Insta}</span>
+                </a>
+              </div>
+              <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-light">
+                {s3Desc}
               </p>
             </div>
 

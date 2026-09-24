@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { PACKAGES_DATA, ADMIN_WA_NUMBER } from '../data/packagesData';
 import { PackageItem } from '../types';
+import { useSewaStore } from '../store/sewaStore';
+import { LazyImage } from './LazyImage';
 
 interface PackagesSectionProps {
   onTriggerBooking?: (pkg: PackageItem) => void;
@@ -26,6 +28,7 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>(selectedCategoryFilter || 'all');
   const [detailModalPackage, setDetailModalPackage] = useState<PackageItem | null>(null);
+  const { packages } = useSewaStore();
 
   const categories = [
     { id: 'all', label: 'Semua Paket' },
@@ -35,8 +38,8 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
   ];
 
   const filteredPackages = activeCategory === 'all'
-    ? PACKAGES_DATA
-    : PACKAGES_DATA.filter((pkg) => pkg.category === activeCategory);
+    ? packages
+    : packages.filter((pkg) => pkg.category === activeCategory);
 
   const handleBookingClick = (pkg: PackageItem) => {
     if (onTriggerBooking) {
@@ -114,12 +117,15 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
             >
               {/* Image Preview with Badges */}
               <div className="relative h-60 overflow-hidden bg-stone-200">
-                <img
+                <LazyImage
                   src={pkg.image}
                   alt={pkg.name}
+                  imageSize={600}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  containerClassName="w-full h-full"
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-[0.96]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pointer-events-none"></div>
 
                 {/* Category Pill */}
                 <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-[#E5E1DA] text-[9px] uppercase tracking-[0.2em] font-semibold px-3 py-1 rounded-full border border-white/20">
@@ -265,12 +271,16 @@ export const PackagesSection: React.FC<PackagesSectionProps> = ({
           >
             {/* Header with Image */}
             <div className="relative h-48 bg-[#141312]">
-              <img
+              <LazyImage
                 src={detailModalPackage.image}
                 alt={detailModalPackage.name}
+                priority
+                imageSize={800}
+                sizes="(max-width: 768px) 100vw, 640px"
+                containerClassName="w-full h-full"
                 className="w-full h-full object-cover opacity-60"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-transparent pointer-events-none"></div>
               
               <button
                 onClick={() => setDetailModalPackage(null)}

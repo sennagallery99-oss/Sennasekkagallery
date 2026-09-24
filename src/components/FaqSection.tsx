@@ -23,6 +23,10 @@ export const FaqSection: React.FC = () => {
       a: 'Ya, untuk Paket Intimate dan Luxury Royal, sesi konsultasi skin prep dan makeup trial dapat dijadwalkan di studio kami agar Anda merasa 100% yakin dengan look dan shade complexion di hari pernikahan.'
     },
     {
+      q: 'Kapan jam operasional studio untuk konsultasi langsung dan fitting gaun?',
+      a: 'Studio Senna MUA Gallery & Sekka Design buka SETIAP HARI mulai pukul 09.00 - 16.30 WIB di Jl. RA Basyid, Gg Kemuning 2 No 28, Tanjung Senang, Bandar Lampung. Anda dapat berkunjung untuk fitting gaun/kebaya dan konsultasi desain pelaminan. Disarankan membuat janji temu via WhatsApp terlebih dahulu.'
+    },
+    {
       q: 'Apakah Senna MUA & Sekka Design melayani pernikahan di luar kota?',
       a: 'Ya, kami melayani pemesanan ke seluruh Indonesia (Jabodetabek, Jawa Barat, Jawa Tengah, Jawa Timur, Bali, Sumatra, dan kota lainnya) dengan penyesuaian biaya akomodasi & transportasi tim.'
     }

@@ -1,6 +1,6 @@
 {
   "name": "Senna MUA & Sekka Decoration",
-  "description": "Website profil pernikahan resmi, katalog paket wedding, galeri rias & dekorasi, dan sistem booking WhatsApp terintegrasi untuk Senna MUA Gallery & Sekka Design Decoration.",
+  "description": "Website resmi wedding studio Senna MUA Gallery & Sekka Design Decoration, lengkap dengan platform rental busana premium Senna Gallery Sewa (kebaya, jas, gaun), galeri portofolio, dan booking WhatsApp otomatis.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

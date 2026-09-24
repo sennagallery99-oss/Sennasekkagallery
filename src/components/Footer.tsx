@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Sparkles, 
   MapPin, 
@@ -6,9 +7,11 @@ import {
   Mail, 
   Instagram, 
   Clock, 
-  Heart
+  Heart,
+  Lock
 } from 'lucide-react';
-import { ADMIN_WA_NUMBER, STUDIO_INFO } from '../data/packagesData';
+import { ADMIN_WA_NUMBER, STUDIO_INFO, INSTAGRAM_ACCOUNTS } from '../data/packagesData';
+import { SennaLogo } from './brand/SennaLogo';
 
 interface FooterProps {
   onNavigate: (view: string, hash?: string) => void;
@@ -25,11 +28,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           
           {/* Col 1: Brand & Identity (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
-            <div className="flex flex-col">
-              <span className="font-serif text-2xl sm:text-3xl font-normal tracking-[0.25em] uppercase text-white">
-                SENNA <span className="font-light italic text-[#8E8271]">&amp;</span> SEKKA
-              </span>
-              <span className="text-[9px] tracking-[0.35em] uppercase text-stone-400 font-light mt-1">
+            <div className="flex flex-col space-y-2">
+              <div className="inline-block">
+                <SennaLogo variant="full" size="md" theme="gold" />
+              </div>
+              <span className="text-[9px] tracking-[0.35em] uppercase text-amber-200/70 font-semibold">
                 MUA Gallery &amp; Design Decoration
               </span>
             </div>
@@ -38,26 +41,42 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               Vendor pernikahan terkemuka penyedia jasa makeup pengantin eksklusif, dekorasi pelaminan modern, sewa gaun pengantin mewah, dan paket pernikahan terlengkap.
             </p>
 
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href={STUDIO_INFO.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-[#E5E1DA] transition cursor-pointer"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
+            <div className="space-y-2 pt-2">
+              <span className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">Akun Instagram Resmi:</span>
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href={INSTAGRAM_ACCOUNTS.mua.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center gap-1.5 text-xs text-[#E5E1DA] transition"
+                  title="Senna MUA Gallery"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-[#C28274]" />
+                  <span>{INSTAGRAM_ACCOUNTS.mua.handle}</span>
+                </a>
 
-              <a
-                href={`https://wa.me/${ADMIN_WA_NUMBER}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center justify-center text-[#E5E1DA] transition cursor-pointer"
-                aria-label="WhatsApp"
-              >
-                <Phone className="w-4 h-4" />
-              </a>
+                <a
+                  href={INSTAGRAM_ACCOUNTS.decor.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center gap-1.5 text-xs text-[#E5E1DA] transition"
+                  title="Sekka Design Decoration"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-[#C28274]" />
+                  <span>{INSTAGRAM_ACCOUNTS.decor.handle}</span>
+                </a>
+
+                <a
+                  href={INSTAGRAM_ACCOUNTS.attire.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 flex items-center gap-1.5 text-xs text-[#E5E1DA] transition"
+                  title="Senna Wedding Attire"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-[#C28274]" />
+                  <span>{INSTAGRAM_ACCOUNTS.attire.handle}</span>
+                </a>
+              </div>
             </div>
           </div>
 
@@ -85,6 +104,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <li>
                 <button onClick={() => onNavigate('home', 'gallery')} className="hover:text-white transition cursor-pointer">
                   Galeri Foto Pengantin
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('portfolio')} className="hover:text-white transition text-[#E6B8A2] font-medium cursor-pointer">
+                  Portofolio &amp; Slideshow Gaun
                 </button>
               </li>
               <li>
@@ -136,11 +160,26 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <Phone className="w-4 h-4 text-[#8E8271] shrink-0" />
                 <span>Hotline WA: {STUDIO_INFO.phoneRaw}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Instagram className="w-4 h-4 text-[#8E8271] shrink-0" />
-                <a href={STUDIO_INFO.instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition">
-                  Instagram: {STUDIO_INFO.instagram}
-                </a>
+              <div className="pt-2 border-t border-white/10 space-y-1.5">
+                <span className="text-[10px] uppercase tracking-wider text-[#8E8271] font-semibold block">Instagram Portofolio:</span>
+                <div className="flex items-center gap-2">
+                  <Instagram className="w-3.5 h-3.5 text-[#C28274] shrink-0" />
+                  <a href={INSTAGRAM_ACCOUNTS.mua.url} target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-xs">
+                    MUA: <strong className="text-stone-300 font-medium">{INSTAGRAM_ACCOUNTS.mua.handle}</strong>
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Instagram className="w-3.5 h-3.5 text-[#C28274] shrink-0" />
+                  <a href={INSTAGRAM_ACCOUNTS.decor.url} target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-xs">
+                    Dekorasi: <strong className="text-stone-300 font-medium">{INSTAGRAM_ACCOUNTS.decor.handle}</strong>
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Instagram className="w-3.5 h-3.5 text-[#C28274] shrink-0" />
+                  <a href={INSTAGRAM_ACCOUNTS.attire.url} target="_blank" rel="noopener noreferrer" className="hover:text-white transition text-xs">
+                    Attire &amp; Gaun: <strong className="text-stone-300 font-medium">{INSTAGRAM_ACCOUNTS.attire.handle}</strong>
+                  </a>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#8E8271] shrink-0" />

@@ -1,0 +1,52 @@
+name: 🚀 Auto Deploy Senna Gallery to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+
+# Membatasi concurrency agar tidak terjadi konflik bila ada multiple push bersamaan
+concurrency:
+  group: deploy-hostinger-main
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    name: 🏗️ Build Vite & Deploy to Hostinger
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 📥 1. Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ 2. Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 3. Install Dependencies
+        run: npm ci
+
+      - name: 🏗️ 4. Build Production Bundle (Vite)
+        run: npm run build
+
+      - name: 📄 5. Pastikan File Konfigurasi PHP & Routing Siap
+        run: |
+          echo "Menyiapkan file public (.htaccess, api.php, favicon) untuk sinkronisasi..."
+          ls -la dist/
+
+      - name: 🚀 6. Sync & Deploy ke Hostinger via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: ${{ secrets.FTP_PORT || 21 }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.FTP_SERVER_DIR || 'public_html/' }}
+          state-name: .ftp-deploy-sync-state.json
+          dangerous-clean-slate: false
+          log-level: standard

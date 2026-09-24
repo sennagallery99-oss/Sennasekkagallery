@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, Palette, Crown, Check, ArrowRight } from 'lucide-react';
 import { SERVICES_DATA, ADMIN_WA_NUMBER } from '../data/packagesData';
+import { LazyImage } from './LazyImage';
 
 interface ServicesSectionProps {
   onSelectCategory: (category: string) => void;
@@ -45,12 +46,15 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectCatego
             >
               {/* Image Preview */}
               <div className="relative h-56 overflow-hidden bg-stone-200">
-                <img
+                <LazyImage
                   src={service.image}
                   alt={service.title}
+                  imageSize={600}
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  containerClassName="w-full h-full"
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-700 filter brightness-[0.96]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none"></div>
                 
                 {/* Floating Icon */}
                 <div className="absolute top-4 left-4 w-11 h-11 rounded-xl bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center shadow-lg">
