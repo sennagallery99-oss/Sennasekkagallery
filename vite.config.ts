@@ -422,10 +422,23 @@ function mysqlApiDevPlugin(): Plugin {
 
 export default defineConfig(() => {
   return {
+    base: '/',
     plugins: [react(), tailwindcss(), mysqlApiDevPlugin()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
+      },
+    },
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
+      sourcemap: false,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom', 'react-router-dom', 'zustand', 'lucide-react'],
+          },
+        },
       },
     },
     server: {
