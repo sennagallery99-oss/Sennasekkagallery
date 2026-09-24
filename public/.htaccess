@@ -45,6 +45,9 @@ AddType font/woff .woff
 
 # 3. REACT ROUTER SPA REWRITE RULE
 # Mengarahkan semua routing halaman web ke index.html tanpa mengganggu api.php & aset statis
+DirectoryIndex index.html index.php
+Options -Indexes
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
